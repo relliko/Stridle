@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         //myThread.start();
     }
 
-    TextView textView = (TextView)this.findViewById(R.id.points);
+    /**TextView textView = (TextView)this.findViewById(R.id.points);
     Runnable myRunnable = new Runnable() {
         @Override
         public void run() {
@@ -32,6 +32,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-    };
+    }; */
 
 }
