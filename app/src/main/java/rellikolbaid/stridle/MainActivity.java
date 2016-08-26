@@ -6,14 +6,49 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    static int points = 0;
+    TextView pointsView; // Member variable for viewing points in the layout
+    static int points = 1234; // Defines the total number of points. TODO: replace with actual counted steps
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState); // Superclass always needs to be called. idk why tho
+
+        // Set the user interface layout for the main activity.
         setContentView(R.layout.activity_main);
-        TextView textView = (TextView)this.findViewById(R.id.points);
+
+        pointsView = (TextView)this.findViewById(R.id.points);
+
+        // Converts points variable from int to string for display
         String message = Integer.toString(points);
-        textView.setText(message);
+
+        // Sets text of the points acquired on the main page of the app
+        // TODO: load saved points
+        pointsView.setText(message);
 
     }
+
+    protected void onStart() {
+        super.onStart();
+    }
+
+    protected void onResume() {
+        super.onResume();
+    }
+
+    protected void onPause() {
+        super.onPause();
+    }
+
+    protected void onStop() {
+        super.onStop();
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // This makes sure the app kills all threads created by the app when it is destroyed
+        android.os.Debug.stopMethodTracing();
+    }
+
+
+
 }
