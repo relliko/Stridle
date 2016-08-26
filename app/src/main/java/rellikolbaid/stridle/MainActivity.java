@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: load saved points
         pointsView.setText(message);
 
+
     }
 
     protected void onStart() {
