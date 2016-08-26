@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onRestart() {
+        super.onRestart();
         /**
          * Called if the user returns while the activity is stopped. It is followed by onStart()
          * and onResume().
