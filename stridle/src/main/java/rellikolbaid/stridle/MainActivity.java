@@ -1,6 +1,7 @@
 package rellikolbaid.stridle;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -18,12 +19,34 @@ public class MainActivity extends AppCompatActivity {
         pointsView = (TextView)this.findViewById(R.id.points);
 
         // Converts points variable from int to string for display
-        String message = Integer.toString(points);
+        final String message = Integer.toString(points);
 
         // Sets text of the points acquired on the main page of the app
         // TODO: load saved points
         pointsView.setText(message);
 
+        Thread t = new Thread() {
+
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                points += 1;
+                                System.out.println(points);
+                                pointsView.setText(message);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        t.start();
 
     }
 
@@ -73,7 +96,5 @@ public class MainActivity extends AppCompatActivity {
         // We need this since we're going to have background threading going.
         android.os.Debug.stopMethodTracing();
     }
-
-
 
 }

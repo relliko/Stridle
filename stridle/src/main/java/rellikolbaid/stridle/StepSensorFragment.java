@@ -23,4 +23,5 @@ public class StepSensorFragment extends Fragment {
 
 
     }
+
 }
