@@ -9,7 +9,7 @@ import android.hardware.SensorManager;
  * Created by Rellikolbaid on 8/26/2016.
  */
 
-// TODO: Figure this out
+// TODO: Move sensor code from MainActivity to here and tie them back together
 public class StepSensorFragment extends Fragment {
     public static final int STEP_COUNTER = 1; // The sensors are referenced by integers I think
     // Steps counted

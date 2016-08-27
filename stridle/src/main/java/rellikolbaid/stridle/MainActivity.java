@@ -1,12 +1,14 @@
 package rellikolbaid.stridle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -15,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor mStepCounterSensor;
     private TextView pointsView; // Member variable for viewing points value in the layout
 
-    static int points = 0; // Defines the total number of points. TODO: replace with actual counted steps
+    static int points = 0; // Defines the total number of points. TODO: move to stats or something
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Bundle has to do with save states.
@@ -52,6 +54,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
 
+    public void openSettings(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+
+    }
+
     @Override
     protected void onResume() {
         /**
@@ -77,9 +85,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     protected void onDestroy() {
         super.onDestroy();
 
-        // This makes sure the app kills all threads created by the app when it is destroyed.
-        // We need this since we're going to have background threading going.
         mSensorManager.unregisterListener(this, mStepCounterSensor);
+        // This makes sure the app kills all threads created by the app when it is destroyed.
         android.os.Debug.stopMethodTracing();
     }
 

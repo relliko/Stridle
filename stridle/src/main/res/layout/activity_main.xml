@@ -38,7 +38,8 @@
         android:id="@+id/settingsButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:onClick="openSettings" />
 
     <Button
         android:layout_width="wrap_content"
