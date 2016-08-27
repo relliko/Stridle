@@ -1,17 +1,26 @@
 package rellikolbaid.stridle;
 
-import android.content.Intent;
-import android.os.Handler;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
-    TextView pointsView; // Member variable for viewing points value in the layout
-    static int points = 1234; // Defines the total number of points. TODO: replace with actual counted steps
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
+
+    private SensorManager mSensorManager;
+    private Sensor mStepCounterSensor;
+    private TextView pointsView; // Member variable for viewing points value in the layout
+
+    static int points = 0; // Defines the total number of points. TODO: replace with actual counted steps
+
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Bundle has to do with save states.
         super.onCreate(savedInstanceState); // Superclass always needs to be called. idk why tho
+
 
         // Set the user interface layout for the main activity.
         setContentView(R.layout.activity_main);
@@ -19,59 +28,42 @@ public class MainActivity extends AppCompatActivity {
         pointsView = (TextView)this.findViewById(R.id.points);
 
         // Converts points variable from int to string for display
-        final String message = Integer.toString(points);
+        String message = Integer.toString(points);
 
         // Sets text of the points acquired on the main page of the app
         // TODO: load saved points
         pointsView.setText(message);
 
-        Thread t = new Thread() {
-
-            @Override
-            public void run() {
-                try {
-                    while (!isInterrupted()) {
-                        Thread.sleep(1000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                points += 1;
-                                System.out.println(points);
-                                pointsView.setText(message);
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
-
-        t.start();
-
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mStepCounterSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
     }
 
-    protected void onStart() {
-        /**
-         * Every time the activity becomes visible this is called.
-         */
-        super.onStart();
+    public void onSensorChanged(SensorEvent event) {
+        Sensor sensor = event.sensor;
+
+        points += 1;
+
+        if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            pointsView.setText("Activity Points: " + points);
+        }
     }
 
+    // The interface required this to be here but I left it blank :^)
+    public void onAccuracyChanged(Sensor sensor, int i) {
+    }
+
+    @Override
     protected void onResume() {
         /**
          * Called at any time that the activity is in the foreground.
          */
         super.onResume();
+
+        mSensorManager.registerListener(this, mStepCounterSensor,
+                SensorManager.SENSOR_DELAY_FASTEST);
     }
 
-    protected void onPause() {
-        /**
-         * This is when the activity is still partially visible but the user may be leaving it
-         * like when they're opening a menu over it. Save anything that must be autosaved etc
-         */
-        super.onPause();
-    }
-
+    @Override
     protected void onStop() {
         /**
          * When this is called the activity is no longer visible and should release almost all
@@ -79,16 +71,10 @@ public class MainActivity extends AppCompatActivity {
          * operations should be performed here.
          */
         super.onStop();
+        mSensorManager.unregisterListener(this, mStepCounterSensor);
     }
 
-    protected void onRestart() {
-        super.onRestart();
-        /**
-         * Called if the user returns while the activity is stopped. It is followed by onStart()
-         * and onResume().
-         */
-    }
-
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
