@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          * operations should be performed here.
          */
         super.onStop();
-        mSensorManager.unregisterListener(this, mStepCounterSensor);
     }
 
     @Override
@@ -80,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         // This makes sure the app kills all threads created by the app when it is destroyed.
         // We need this since we're going to have background threading going.
+        mSensorManager.unregisterListener(this, mStepCounterSensor);
         android.os.Debug.stopMethodTracing();
     }
 
