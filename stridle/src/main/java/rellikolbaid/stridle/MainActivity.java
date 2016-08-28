@@ -26,10 +26,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // Set the user interface layout for the main activity.
         setContentView(R.layout.activity_main);
 
-        // Display the activity points
-        pointsView = (TextView) this.findViewById(R.id.points);
-        pointsView.setText("Activity Points: " + gameCore.getPoints());
-
         // Sensor setup
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
@@ -63,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void openStatsActivity(View view) {
-        Intent intent = new Intent (this, UpgradesActivity.class);
+        Intent intent = new Intent (this, StatsActivity.class);
         startActivity(intent);
     }
 
@@ -73,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          * Called at any time that the activity is in the foreground.
          */
         super.onResume();
+        // Display the activity points
+        pointsView = (TextView) this.findViewById(R.id.points);
+        pointsView.setText("Activity Points: " + gameCore.getPoints());
     }
 
     @Override
@@ -98,5 +97,4 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // This makes sure the app kills all threads created by the app when it is destroyed.
         android.os.Debug.stopMethodTracing();
     }
-
 }
