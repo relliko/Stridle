@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
         pointsView = (TextView)this.findViewById(R.id.points);
         pointsView.setText("Activity Points: " + gameCore.getPoints());
-        
+
         // Sensor setup
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
