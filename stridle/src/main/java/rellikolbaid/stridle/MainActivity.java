@@ -18,8 +18,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private TextView pointsView; // Member variable for viewing points value in the layout
 
-    private static GameCore gameCore = new GameCore();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Bundle has to do with save states.
         super.onCreate(savedInstanceState); // Superclass always needs to be called. idk why tho
@@ -34,10 +32,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void onSensorChanged(SensorEvent event) {
-        gameCore.addSteps(); // Sends signal to GameCore class to add +1 to steps counter
+        GameCore.addSteps(); // Sends signal to GameCore class to add +1 to steps counter
+        GameCore.pointsCalc();
 
         // Gets points value from GameCore and displays the number on the main screen
-        pointsView.setText("Activity Points: " + gameCore.getPoints()); //TODO: Use getString instead
+        //TODO: Use getString instead
+        pointsView.setText("Activity Points: " + GameCore.getInstance().getPointsString());
     }
 
     // The interface required this to be here but I left it blank :^)
@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          * Called at any time that the activity is in the foreground.
          */
         super.onResume();
-        // Display the activity points
+        // Display the activity points whenever the activity is in foreground.
         pointsView = (TextView) this.findViewById(R.id.points);
-        pointsView.setText("Activity Points: " + gameCore.getPoints());
+        pointsView.setText("Activity Points: " + GameCore.getInstance().getPointsString());
     }
 
     @Override
