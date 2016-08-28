@@ -1,6 +1,7 @@
 package rellikolbaid.stridle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -50,8 +51,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void openSettings(View view) {
-        //Intent intent = new Intent(this, SettingsActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
 
     }
 
