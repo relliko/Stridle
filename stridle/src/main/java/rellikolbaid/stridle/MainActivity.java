@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
 
         // Display the activity points
-        pointsView = (TextView)this.findViewById(R.id.points);
+        pointsView = (TextView) this.findViewById(R.id.points);
         pointsView.setText("Activity Points: " + gameCore.getPoints());
 
         // Sensor setup
@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         mSensorManager.registerListener(this, mStepDetectorSensor,
                 SensorManager.SENSOR_DELAY_GAME);
-
-
     }
 
     public void onSensorChanged(SensorEvent event) {
@@ -50,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
 
+    /**
+     * Code for opening the activities for the buttons
+     */
     public void openSettingsActivity(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
@@ -72,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          * Called at any time that the activity is in the foreground.
          */
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override

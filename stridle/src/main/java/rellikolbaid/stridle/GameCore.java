@@ -5,7 +5,7 @@ package rellikolbaid.stridle;
  */
 public class GameCore {
     private static int lifetimeSteps = -1; //TODO: save/load this
-    private static int sessionSteps = -1; // Allow this to reset every time the app is closed
+    private static int sessionSteps = -1;
     private static int points = 0;
 
     /**
@@ -21,8 +21,16 @@ public class GameCore {
         pointsCalc();
     }
 
+    public void addPoints(int numPoints) {
+        points += numPoints;
+    }
+
     public int getPoints() {
         return points;
+    }
+
+    public String getPointsString() {
+        return Integer.toString(points);
     }
 
     public int getSessionSteps() {
