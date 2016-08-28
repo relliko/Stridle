@@ -50,10 +50,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
 
-    public void openSettings(View view) {
+    public void openSettingsActivity(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
 
+    }
+
+    public void openUpgradesActivity(View view) {
+        Intent intent = new Intent(this, UpgradesActivity.class);
+        startActivity(intent);
+    }
+
+    public void openStatsActivity(View view) {
+        Intent intent = new Intent (this, UpgradesActivity.class);
+        startActivity(intent);
     }
 
     @Override

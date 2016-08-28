@@ -12,7 +12,7 @@ public class GameCore {
      * Core points calculation method.
      */
     private void pointsCalc() {
-        points = lifetimeSteps;
+        points = lifetimeSteps + (sessionSteps * (1/10));
     }
 
     public void addSteps() {
@@ -27,5 +27,11 @@ public class GameCore {
 
     public int getSessionSteps() {
         return sessionSteps;
+    }
+
+    public void reset() {
+        lifetimeSteps = 0;
+        sessionSteps = 0;
+        points = 0;
     }
 }

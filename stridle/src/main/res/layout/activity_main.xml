@@ -39,7 +39,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="openSettings" />
+        android:onClick="openSettingsActivity" />
 
     <Button
         android:layout_width="wrap_content"
@@ -47,7 +47,8 @@
         android:text="Upgrades"
         android:id="@+id/upgradesButton"
         android:layout_alignTop="@+id/settingsButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="openUpgradesActivity"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -56,6 +57,7 @@
         android:id="@+id/statsButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="openStatsActivity"/>
 
 </RelativeLayout>
