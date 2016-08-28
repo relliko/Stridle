@@ -1,7 +1,6 @@
 package rellikolbaid.stridle;
 
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -25,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState); // Superclass always needs to be called. idk why tho
         // Set the user interface layout for the main activity.
         setContentView(R.layout.activity_main);
+
+        // Display the activity points
         pointsView = (TextView)this.findViewById(R.id.points);
         pointsView.setText("Activity Points: " + gameCore.getPoints());
 
@@ -34,14 +35,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager.registerListener(this, mStepDetectorSensor,
                 SensorManager.SENSOR_DELAY_GAME);
 
-        System.out.println("onCreate ran");
+
     }
 
     public void onSensorChanged(SensorEvent event) {
         gameCore.addSteps(); // Sends signal to GameCore class to add +1 to steps counter
-        System.out.println("Counter ticked");
+
         // Gets points value from GameCore and displays the number on the main screen
-        pointsView.setText("Activity Points: " + gameCore.getPoints());
+        pointsView.setText("Activity Points: " + gameCore.getPoints()); //TODO: Use getString instead
     }
 
     // The interface required this to be here but I left it blank :^)
@@ -49,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void openSettings(View view) {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, SettingsActivity.class);
+        //startActivity(intent);
 
     }
 
