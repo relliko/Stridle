@@ -1,15 +1,12 @@
 package rellikolbaid.stridle;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-
+//TODO: Reward for hitting a certain number of steps in a day as part of the mechanics.
 /**
  * SPAGHETTI CODE AHOY!
  */
 public class GameCore {
 
-    private static int lifetimeSteps = 0; //TODO: save/load this
+    private static int lifetimeSteps = 0;
     private static int sessionSteps = 0;
     private static float points = 0; // This is the number the player sees on the main screen.
 
@@ -35,13 +32,39 @@ public class GameCore {
         lifetimeSteps += 1;
     }
 
-    public static void addPoints(int numPoints) {points += numPoints;}
+    public static void reset() {
+        lifetimeSteps = 0;
+        sessionSteps = 0;
+        points = 0;
+    }
 
-    public static float getPoints() {return points;}
+    public static void addPoints(int numPoints) {
+        points += numPoints;
+    }
 
-    public static String getPointsString() {return Float.toString(points);}
+    public static void setLifetimeSteps(int numSteps) {
+        lifetimeSteps = numSteps;
+    }
 
-    public static int getSessionSteps() {return sessionSteps;}
+    public static void setPoints(Float numPoints) {
+        points = numPoints;
+    }
+
+    public static float getPoints() {
+        return points;
+    }
+
+    public static String getPointsString() {
+        return Float.toString(points);
+    }
+
+    public static int getLifetimeSteps() {
+        return lifetimeSteps;
+    }
+
+    public static int getSessionSteps() {
+        return sessionSteps;
+    }
 
     public static String getSessionStepsString() {
         String steps = Integer.toString(sessionSteps);
@@ -51,11 +74,5 @@ public class GameCore {
     public static String getLifetimeStepsString() {
         String steps = Integer.toString(lifetimeSteps);
         return steps;
-    }
-
-    public static void reset() {
-        lifetimeSteps = 0;
-        sessionSteps = 0;
-        points = 0;
     }
 }

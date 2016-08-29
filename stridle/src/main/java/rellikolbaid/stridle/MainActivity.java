@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
+    Context mContext; // Used to quickly specify context in each part of the activity lifecycle.
 
     private SensorManager mSensorManager;
     private Sensor mStepDetectorSensor;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Bundle has to do with save states.
         super.onCreate(savedInstanceState); // Superclass always needs to be called. idk why tho
+        mContext = this; // muh context
         // Set the user interface layout for the main activity.
         setContentView(R.layout.activity_main);
 
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         mSensorManager.registerListener(this, mStepDetectorSensor,
                 SensorManager.SENSOR_DELAY_FASTEST);
+
+        // Load saved stats
+        KeyValueDB.loadStats(mContext);
     }
 
     /**
@@ -81,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onPause() {
         super.onPause();
+        mContext = this;
+
+        // Save stats
+        KeyValueDB.saveStats(mContext);
     }
 
     /**
@@ -91,14 +100,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onStop() {
         super.onStop();
+        mContext = this;
+
+        // Save stats
+        KeyValueDB.saveStats(mContext);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mContext = this;
 
         mSensorManager.unregisterListener(this, mStepDetectorSensor);
         // This makes sure the app kills all threads created by the app when it is destroyed.
         android.os.Debug.stopMethodTracing();
+
+        // Save stats
+        KeyValueDB.saveStats(mContext);
     }
 }
