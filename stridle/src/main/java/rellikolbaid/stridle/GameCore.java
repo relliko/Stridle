@@ -1,13 +1,16 @@
 package rellikolbaid.stridle;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 /**
  * SPAGHETTI CODE AHOY!
  */
 public class GameCore {
-    private static int lifetimeSteps = -1; //TODO: save/load this
-    private static int sessionSteps = -1;
+
+    private static int lifetimeSteps = 0; //TODO: save/load this
+    private static int sessionSteps = 0;
     private static float points = 0; // This is the number the player sees on the main screen.
 
     /**
@@ -39,6 +42,16 @@ public class GameCore {
     public static String getPointsString() {return Float.toString(points);}
 
     public static int getSessionSteps() {return sessionSteps;}
+
+    public static String getSessionStepsString() {
+        String steps = Integer.toString(sessionSteps);
+        return steps;
+    }
+
+    public static String getLifetimeStepsString() {
+        String steps = Integer.toString(lifetimeSteps);
+        return steps;
+    }
 
     public static void reset() {
         lifetimeSteps = 0;

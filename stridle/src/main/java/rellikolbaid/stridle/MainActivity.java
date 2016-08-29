@@ -28,9 +28,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
         mSensorManager.registerListener(this, mStepDetectorSensor,
-                SensorManager.SENSOR_DELAY_GAME);
+                SensorManager.SENSOR_DELAY_FASTEST);
     }
 
+    /**
+     * For the step detector sensor.
+     * @param event
+     */
     public void onSensorChanged(SensorEvent event) {
         GameCore.addSteps(); // Sends signal to GameCore class to add +1 to steps counter
         GameCore.pointsCalc();
@@ -63,11 +67,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startActivity(intent);
     }
 
+    /**
+     * Called at any time that the activity is in the foreground.
+     */
     @Override
     protected void onResume() {
-        /**
-         * Called at any time that the activity is in the foreground.
-         */
         super.onResume();
         // Display the activity points whenever the activity is in foreground.
         pointsView = (TextView) this.findViewById(R.id.points);
@@ -79,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onPause();
     }
 
+    /**
+     * When this is called the activity is no longer visible and should release almost all
+     * resources that aren't needed while the user is not using it. Intensive shut-down
+     * operations should be performed here.
+     */
     @Override
     protected void onStop() {
-        /**
-         * When this is called the activity is no longer visible and should release almost all
-         * resources that aren't needed while the user is not using it. Intensive shut-down
-         * operations should be performed here.
-         */
         super.onStop();
     }
 

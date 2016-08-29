@@ -9,4 +9,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="rellikolbaid.stridle.UpgradesActivity">
 
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_weight="2"
+        android:id="@+id/shoesUpgrade"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shoes_button" />
+
+
+
 </RelativeLayout>
