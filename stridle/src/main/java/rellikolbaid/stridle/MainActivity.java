@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private TextView textView; // Member variable for viewing points value in the layout
 
-    // Exp bar variables
+    // Exp bar loop
     private ProgressBar expBar;
     private Handler handler = new Handler();
 
@@ -46,12 +46,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         GameCore.setLevel((int) Math.floor(level));
         System.out.println(GameCore.getLevel());
 
-        // Thread that handles exp bar.
-        expBar = (ProgressBar) findViewById(R.id.expBar);
-        new Thread(new Runnable() {
+        Thread expBarThread = new Thread(new Runnable() {
             public void run() {
-                while (true) {
-
+                while (true) { // TODO: Stop this crazy thing
                     handler.post(new Runnable() {
                         public void run() {
                             // Calculate level using saved exp value because level is not saved locally.
@@ -65,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             // Ensures progress is a whole integer.
                             int progress = (int) (fPart * 100);
                             expBar.setProgress(progress);
+                            System.out.println("bar increasing");
                         }
                     });
                     try {
@@ -74,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     }
                 }
             }
-        }).start();
-
+        });
+        expBarThread.start();
     }
 
     /**
