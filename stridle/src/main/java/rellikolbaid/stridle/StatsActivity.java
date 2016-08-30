@@ -1,5 +1,6 @@
 package rellikolbaid.stridle;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.widget.TextView;
 
 public class StatsActivity extends AppCompatActivity {
     TextView textView;
+
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +24,10 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     public void resetStats(View view) {
+        mContext = this;
         GameCore.getInstance().reset();
         updateStatsView();
+        KeyValueDB.wipeStats(mContext);
     }
 
     public void updateStatsView() {

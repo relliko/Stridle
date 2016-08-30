@@ -8,7 +8,9 @@ public class GameCore {
 
     private static int lifetimeSteps = 0;
     private static int sessionSteps = 0;
-    private static float points = 0; // This is the number the player sees on the main screen.
+    private static long points = 0L; // This is the number the player sees on the main screen.
+    private static int experience = 0;
+    private static short level = 1;
 
     /**
      * The following two lines allow stats to be collected by other classes.
@@ -17,7 +19,10 @@ public class GameCore {
      *
      */
     private static final GameCore core = new GameCore();
-    public static GameCore getInstance() {return core;}
+
+    public static GameCore getInstance() {
+        return core;
+    }
 
     /**
      * Core points calculation method.
@@ -30,12 +35,24 @@ public class GameCore {
     public static void addSteps() {
         sessionSteps += 1;
         lifetimeSteps += 1;
+        addExperience(1);
+    }
+
+    public static void addExperience(int exp) {
+        experience += exp;
+    }
+
+
+    public static void calculateLevel() {
+        level = (short) Math.floor(0.2 * Math.sqrt(experience));
     }
 
     public static void reset() {
         lifetimeSteps = 0;
         sessionSteps = 0;
         points = 0;
+        experience = 0;
+        level = 1;
     }
 
     public static void addPoints(int numPoints) {
@@ -46,16 +63,20 @@ public class GameCore {
         lifetimeSteps = numSteps;
     }
 
-    public static void setPoints(Float numPoints) {
+    public static void setPoints(long numPoints) {
         points = numPoints;
     }
 
-    public static float getPoints() {
+    public static void setExperience(int exp) {
+        experience = exp;
+    }
+
+    public static long getPoints() {
         return points;
     }
 
     public static String getPointsString() {
-        return Float.toString(points);
+        return Long.toString(points);
     }
 
     public static int getLifetimeSteps() {
@@ -64,6 +85,14 @@ public class GameCore {
 
     public static int getSessionSteps() {
         return sessionSteps;
+    }
+
+    public static short getLevel() {
+        return level;
+    }
+
+    public static int getExperience() {
+        return experience;
     }
 
     public static String getSessionStepsString() {
