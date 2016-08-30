@@ -6,9 +6,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -17,7 +19,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager mSensorManager;
     private Sensor mStepDetectorSensor;
 
-    private TextView pointsView; // Member variable for viewing points value in the layout
+    private TextView textView; // Member variable for viewing points value in the layout
+
+    // Exp bar variables
+    private ProgressBar expBar;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { // Bundle has to do with save states.
@@ -34,6 +40,42 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         // Load saved stats
         KeyValueDB.loadStats(mContext);
+
+        // Initial calculation and setting of level.
+        double level = GameCore.calculateLevel();
+        GameCore.setLevel((int) Math.floor(level));
+        System.out.println(GameCore.getLevel());
+
+        // Thread that handles exp bar.
+        expBar = (ProgressBar) findViewById(R.id.expBar);
+        new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+
+                    handler.post(new Runnable() {
+                        public void run() {
+                            // Calculate level using saved exp value because level is not saved locally.
+                            double level = GameCore.calculateLevel();
+                            // Rounds down the level to an integer and sets it in the GameCore.
+                            GameCore.setLevel(level);
+                            // Cuts off the decimal at the end for subtraction on next line.
+                            int iPart = (int) level;
+                            // Leaves only the decimal on the original number.
+                            double fPart = level - iPart;
+                            // Ensures progress is a whole integer.
+                            int progress = (int) (fPart * 100);
+                            expBar.setProgress(progress);
+                        }
+                    });
+                    try {
+                        Thread.sleep(500); // Wait for half a second between loops.
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
     }
 
     /**
@@ -45,8 +87,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         GameCore.pointsCalc();
 
         // Gets points value from GameCore and displays the number on the main screen
-        //TODO: Use getString instead
-        pointsView.setText("Activity Points: " + GameCore.getInstance().getPointsString());
+        //TODO: Use getString instead and learn to do a UI thread
+        textView = (TextView) this.findViewById(R.id.points);
+        textView.setText("Activity Points: " + GameCore.getInstance().getPointsString());
+
+        textView = (TextView) this.findViewById(R.id.levelView);
+        textView.setText("Level: " + GameCore.getInstance().getLevel());
     }
 
     // The interface required this to be here but I left it blank :^)
@@ -78,9 +124,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        // Display the activity points whenever the activity is in foreground.
-        pointsView = (TextView) this.findViewById(R.id.points);
-        pointsView.setText("Activity Points: " + GameCore.getInstance().getPointsString());
+        //TODO: Figure out how to make a UI thread and put this shit there, or better yet use strings.xml
+        // Setup of initial display of the varying TextViews.
+        textView = (TextView) this.findViewById(R.id.points);
+        textView.setText("Activity Points: " + GameCore.getInstance().getPointsString());
+        textView = (TextView) this.findViewById(R.id.levelView);
+        textView.setText("Level: " + GameCore.getInstance().getLevel());
     }
 
     @Override

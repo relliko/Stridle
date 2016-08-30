@@ -1,16 +1,19 @@
 package rellikolbaid.stridle;
 
 //TODO: Reward for hitting a certain number of steps in a day as part of the mechanics.
+//TODO: Restructure EXP and levels. It's a mess.
 /**
  * SPAGHETTI CODE AHOY!
  */
 public class GameCore {
 
+    private static final float EXP_CONSTANT = 0.2F;
+
     private static int lifetimeSteps = 0;
     private static int sessionSteps = 0;
     private static long points = 0L; // This is the number the player sees on the main screen.
     private static int experience = 0;
-    private static short level = 1;
+    private static int level = 1;
 
     /**
      * The following two lines allow stats to be collected by other classes.
@@ -43,8 +46,13 @@ public class GameCore {
     }
 
 
-    public static void calculateLevel() {
-        level = (short) Math.floor(0.2 * Math.sqrt(experience));
+    /**
+     * Returns decimal level value (i.e. 2.65) and is called in onCreate of the MainActivity
+     * in order to calculate the integer level and use the end of the float for the exp bar.
+     * @return
+     */
+    public static double calculateLevel() {
+        return (EXP_CONSTANT * Math.sqrt(experience));
     }
 
     public static void reset() {
@@ -71,6 +79,16 @@ public class GameCore {
         experience = exp;
     }
 
+    /**
+     * Floors the calculated level from calculateLevel() and converts it to an int before storing
+     * it in the list of member variables in the GameCore.
+     * //TODO: Simply combine with calculateLevel() and simplify MainActivity?
+     * @param lvl
+     */
+    public static void setLevel(double lvl) {
+        level = (int) Math.floor(lvl) + 1;
+    }
+
     public static long getPoints() {
         return points;
     }
@@ -87,7 +105,7 @@ public class GameCore {
         return sessionSteps;
     }
 
-    public static short getLevel() {
+    public static int getLevel() {
         return level;
     }
 
