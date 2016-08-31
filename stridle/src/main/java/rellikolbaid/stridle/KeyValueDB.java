@@ -18,7 +18,7 @@ public class KeyValueDB {
     }
 
     public static long loadPoints(Context context) {
-        return getPrefs(context).getLong("points", 0); // The zero is returned if points not set.
+        return getPrefs(context).getLong("points", 0L); // The zero is returned if points not set.
     }
 
     public static int loadSteps(Context context) {

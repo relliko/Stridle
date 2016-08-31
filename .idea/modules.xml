@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Stridle.iml" filepath="$PROJECT_DIR$/Stridle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/stridle/app.iml" filepath="$PROJECT_DIR$/stridle/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/stridle/stridle.iml" filepath="$PROJECT_DIR$/stridle/stridle.iml" />
     </modules>
   </component>
