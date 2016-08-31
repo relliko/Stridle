@@ -55,6 +55,23 @@ public class GameCore {
         return (EXP_CONSTANT * Math.sqrt(experience));
     }
 
+    /**
+     * Returns percentage towards the next level.
+     * @return
+     */
+    public static int percentIntoLevel() {
+        // Calculate level using saved exp value because level is not saved locally.
+        double level = GameCore.calculateLevel();
+        // Rounds down the level to an integer and sets it in the GameCore.
+        GameCore.setLevel(level);
+        // Cuts off the decimal at the end for subtraction on next line.
+        int iPart = (int) level;
+        // Leaves only the decimal on the original number.
+        double fPart = level - iPart;
+        // Ensures progress is a whole integer.
+        return (int) (fPart * 100);
+    }
+
     public static void reset() {
         lifetimeSteps = 0;
         sessionSteps = 0;

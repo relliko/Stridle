@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView textView; // Member variable for viewing points value in the layout
 
     // Exp bar member variables
-    private int progress = 0;
     private Handler handler = new Handler();
     private ProgressBar expBar;
 
@@ -45,6 +44,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // Initial calculation and setting of level.
         double level = GameCore.calculateLevel();
         GameCore.setLevel((int) Math.floor(level));
+
+        // Initial setting of exp bar
+        expBar = (ProgressBar)this.findViewById(R.id.expBar);
+        expBar.setProgress(GameCore.percentIntoLevel());
+
+
     }
 
     /**
@@ -63,21 +68,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         textView = (TextView) this.findViewById(R.id.levelView);
         textView.setText("Level: " + GameCore.getInstance().getLevel());
 
-        // Exp bar
+        // Handling of exp bar updates
         expBar = (ProgressBar)this.findViewById(R.id.expBar);
         handler.post(new Runnable() {
             public void run() {
-                // Calculate level using saved exp value because level is not saved locally.
-                double level = GameCore.calculateLevel();
-                // Rounds down the level to an integer and sets it in the GameCore.
-                GameCore.setLevel(level);
-                // Cuts off the decimal at the end for subtraction on next line.
-                int iPart = (int) level;
-                // Leaves only the decimal on the original number.
-                double fPart = level - iPart;
-                // Ensures progress is a whole integer.
-                progress = (int) (fPart * 100);
-                expBar.setProgress(progress);
+                expBar.setProgress(GameCore.percentIntoLevel());
             }
         });
     }
